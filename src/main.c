@@ -32,7 +32,6 @@
 #include "diag/Trace.h"
 
 #include "Timer.h"
-#include "Camera.h"
 #include "BlinkLed.h"
 #include "stm32f4xx_hal_conf.h"
 #include "stm32f4xx_hal_uart.h"
@@ -62,10 +61,14 @@
 #define BLINK_OFF_TICKS (TIMER_FREQUENCY_HZ - BLINK_ON_TICKS)
 
 // ----- Private variables ----------------------------------------------------
-//UART_HandleTypeDef uart2;
-//uint32_t timeout = 10;
-//uint8_t buffer[13] = "Hello World!";
-//uint16_t size = 13;
+UART_HandleTypeDef huart5;
+uint32_t timeout = 100;
+uint8_t buffer[8] = "testtest";
+uint16_t size = 8;
+
+/* Private function prototypes -----------------------------------------------*/
+static void UART5_Init(void);
+static void GPIO_Init(void);
 
 // ----- main() ---------------------------------------------------------------
 
@@ -78,12 +81,9 @@
 
 int main(int argc, char* argv[])
 {
-  // Send a greeting to the trace device (skipped on Release).
-  trace_puts("Hello ARM World!");
-
-  // At this stage the system clock should have already been configured
-  // at high speed.
-  trace_printf("System clock: %u Hz\n", SystemCoreClock);
+  // Initialize all of the peripherals
+  UART5_Init();
+  GPIO_Init();
 
   timer_start();
 
@@ -94,19 +94,36 @@ int main(int argc, char* argv[])
   // Infinite loop
   while (1)
     {
-      blink_led_on();
-      timer_sleep(seconds == 0 ? TIMER_FREQUENCY_HZ : BLINK_ON_TICKS);
-
-      blink_led_off();
-      timer_sleep(BLINK_OFF_TICKS);
-
-      ++seconds;
-      // Count seconds on the trace device.
-      trace_printf("Second %u\n", seconds);
-      transmitCameraData();
+      HAL_UART_Transmit(&huart5, buffer, size, timeout);
     }
   // Infinite loop, never return.
 }
+
+void
+UART5_Init(void)
+{
+    huart5.Instance = UART5;
+    huart5.Init.BaudRate = 115200;
+    huart5.Init.WordLength = UART_WORDLENGTH_8B;
+    huart5.Init.StopBits = UART_STOPBITS_1;
+    huart5.Init.Parity = UART_PARITY_NONE;
+    huart5.Init.Mode = UART_MODE_TX_RX;
+    huart5.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart5.Init.OverSampling = UART_OVERSAMPLING_16;
+    if (HAL_UART_Init(&huart5) != HAL_OK)
+    {
+            trace_printf("UART 5 Error");
+    }
+}
+
+void
+GPIO_Init(void)
+{
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+}
+
 
 #pragma GCC diagnostic pop
 
