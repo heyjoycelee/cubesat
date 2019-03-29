@@ -49,38 +49,38 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 SECONDARY_FLASH += \
-cubesat-obc.hex \
+cubesat.hex \
 
 SECONDARY_SIZE += \
-cubesat-obc.siz \
+cubesat.siz \
 
 
 # All Target
-all: cubesat-obc.elf secondary-outputs
+all: cubesat.elf secondary-outputs
 
 # Tool invocations
-cubesat-obc.elf: $(OBJS) $(USER_OBJS)
+cubesat.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GNU ARM Cross C++ Linker'
-	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=soft -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -fno-move-loop-invariants -Wall -Wextra  -g3 -T mem.ld -T libs.ld -T sections.ld -nostartfiles -Xlinker --gc-sections -L"../ldscripts" -L"/Users/joycelee/eclipse-workspace/cubesat-obc/system/include/stm32f4-hal" -Wl,-Map,"cubesat-obc.map" --specs=nano.specs -o "cubesat-obc.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -fno-move-loop-invariants -Wall -Wextra  -g3 -T mem.ld -T libs.ld -T sections.ld -nostartfiles -Xlinker --gc-sections -L"../ldscripts" -Wl,-Map,"cubesat.map" --specs=nano.specs -o "cubesat.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-cubesat-obc.hex: cubesat-obc.elf
+cubesat.hex: cubesat.elf
 	@echo 'Invoking: GNU ARM Cross Create Flash Image'
-	arm-none-eabi-objcopy -O ihex "cubesat-obc.elf"  "cubesat-obc.hex"
+	arm-none-eabi-objcopy -O ihex "cubesat.elf"  "cubesat.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-cubesat-obc.siz: cubesat-obc.elf
+cubesat.siz: cubesat.elf
 	@echo 'Invoking: GNU ARM Cross Print Size'
-	arm-none-eabi-size --format=berkeley "cubesat-obc.elf"
+	arm-none-eabi-size --format=berkeley "cubesat.elf"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(SECONDARY_FLASH)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(CPP_DEPS) cubesat-obc.elf
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(SECONDARY_FLASH)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(CPP_DEPS) cubesat.elf
 	-@echo ' '
 
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_SIZE)
