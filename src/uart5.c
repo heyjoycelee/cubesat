@@ -2,9 +2,6 @@
 #include "uart5.h"
 
 UART_HandleTypeDef huart5;
-uint32_t timeout = 100;
-uint8_t buffer[8] = "testtest";
-uint16_t size = 8;
 
 void
 UART5_Init(void)

@@ -1,8 +1,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "freeRTOS/CMSIS_RTOS_ST_V1/cmsis_os.h"
-#include "diag/Trace.h"
 
 /* Private includes ----------------------------------------------------------*/
 
@@ -36,7 +34,8 @@ int main(void)
   /* SysInit */
 
   /* Peripheral initialization*/
-
+  GPIO_Init();
+  UART5_Init();
   /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
@@ -84,10 +83,6 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.

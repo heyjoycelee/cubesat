@@ -4,7 +4,6 @@
 #define __UART5_H
 
 #include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal_uart.h"
 #include "diag/Trace.h"
 
 void UART5_Init(void);

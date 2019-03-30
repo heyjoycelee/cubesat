@@ -24,6 +24,7 @@
 #include "main.h"
 #include "freeRTOS/CMSIS_RTOS_ST_V1/cmsis_os.h"
 #include "diag/Trace.h"
+#include "uart5.h"
 
 /* Private includes ----------------------------------------------------------*/
 
@@ -34,12 +35,16 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
+uint32_t timeout = 100;
+uint8_t buffer[8] = "testtest";
+uint16_t size = 8;
 
 osThreadId defaultTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 
 void StartDefaultTask(void const * argument);
+void CommandTask(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -49,38 +54,29 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   * @retval None
   */
 void MX_FREERTOS_Init(void) {
-  /* USER CODE BEGIN Init */
-       
-  /* USER CODE END Init */
+  /* Init */
 
-  /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
 
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
 
-  /* USER CODE BEGIN RTOS_TIMERS */
+
   /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
 
-  /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
+
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
 
 }
 
-void StartDefaultTask(void)
+void
+StartDefaultTask(void const *argument)
 {
   for(;;)
   {
@@ -89,5 +85,14 @@ void StartDefaultTask(void)
   }
 }
 
-void StartUartTransmitTask()
+void
+CommandTask(void const *argument)
+{
+    for(;;)
+    {
+      trace_printf("Command task running\n");
+      UART5_Transmit(buffer, size, timeout);
+      osDelay(100);
+    }
+}
 
