@@ -35,7 +35,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "diag/Trace.h"
 
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
@@ -73,7 +72,8 @@ int main(void)
   - Low Level Initialization
   */
   HAL_Init();
-
+  GPIO_Init();
+  UART5_Init();
   /* Configure the system clock to 100 MHz */
   SystemClock_Config();
 
