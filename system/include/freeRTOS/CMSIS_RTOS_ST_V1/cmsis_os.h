@@ -98,13 +98,12 @@
   ******************************************************************************
   */
 	
-#include <freeRTOS/event_groups.h>
-#include <freeRTOS/FreeRTOS.h>
-#include <freeRTOS/queue.h>
-#include <freeRTOS/semphr.h>
-
-#include <freeRTOS/task.h>
-#include <freeRTOS/timers.h>
+#include "freeRTOS/FreeRTOS.h"
+#include "freeRTOS/task.h"
+#include "freeRTOS/timers.h"
+#include "freeRTOS/queue.h"
+#include "freeRTOS/semphr.h"
+#include "freeRTOS/event_groups.h"
 
 /**
 \page cmsis_os_h Header File Template: cmsis_os.h

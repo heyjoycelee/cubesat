@@ -149,23 +149,23 @@ projects should not use them. */
 #endif
 
 #ifdef RVDS_ARMCM3_LM3S102
-	#include "../../../Source/portable/RVDS/ARM_CM3/portmacro.h"
+	#include "../../Source/portable/RVDS/ARM_CM3/portmacro.h"
 #endif
 
 #ifdef GCC_ARMCM3_LM3S102
-	#include "../../../Source/portable/GCC/ARM_CM3/portmacro.h"
+	#include "../../Source/portable/GCC/ARM_CM3/portmacro.h"
 #endif
 
 #ifdef GCC_ARMCM3
-	#include "../../../Source/portable/GCC/ARM_CM3/portmacro.h"
+	#include "../../Source/portable/GCC/ARM_CM3/portmacro.h"
 #endif
 
 #ifdef IAR_ARM_CM3
-	#include "../../../Source/portable/IAR/ARM_CM3/portmacro.h"
+	#include "../../Source/portable/IAR/ARM_CM3/portmacro.h"
 #endif
 
 #ifdef IAR_ARMCM3_LM
-	#include "../../../Source/portable/IAR/ARM_CM3/portmacro.h"
+	#include "../../Source/portable/IAR/ARM_CM3/portmacro.h"
 #endif
 
 #ifdef HCS12_CODE_WARRIOR

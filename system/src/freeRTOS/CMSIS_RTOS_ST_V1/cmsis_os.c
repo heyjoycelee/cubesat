@@ -26,7 +26,7 @@
  *  
  *----------------------------------------------------------------------------
  *
- * Portions Copyright ï¿½ 2016 STMicroelectronics International N.V. All rights reserved.
+ * Portions Copyright © 2016 STMicroelectronics International N.V. All rights reserved.
  * Portions Copyright (c) 2013 ARM LIMITED
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
@@ -96,8 +96,8 @@
   ******************************************************************************
   */ 
 
-#include <freeRTOS/CMSIS_RTOS_ST_V1/cmsis_os.h>
 #include <string.h>
+#include "cmsis_os.h"
 
 /*
  * ARM Compiler 4/5

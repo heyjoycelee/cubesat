@@ -19,42 +19,25 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include <freeRTOS/CMSIS_RTOS_ST_V1/cmsis_os.h>
-#include "FreeRTOS.h"
-#include "task.h"
+#include "freeRTOS/FreeRTOS.h"
+#include "freeRTOS/task.h"
 #include "main.h"
-
+#include "freeRTOS/CMSIS_RTOS_ST_V1/cmsis_os.h"
+#include "diag/Trace.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */     
-
-/* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-/* USER CODE BEGIN Variables */
 
-/* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
-/* USER CODE BEGIN FunctionPrototypes */
-   
-/* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
 
@@ -97,28 +80,14 @@ void MX_FREERTOS_Init(void) {
 
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
-/**
-  * @brief  Function implementing the defaultTask thread.
-  * @param  argument: Not used 
-  * @retval None
-  */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+void StartDefaultTask(void)
 {
-
-  /* USER CODE BEGIN StartDefaultTask */
-  /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    trace_printf("Default task running\n");
+    osDelay(1000);
   }
-  /* USER CODE END StartDefaultTask */
 }
 
-/* Private application code --------------------------------------------------*/
-/* USER CODE BEGIN Application */
-     
-/* USER CODE END Application */
+void StartUartTransmitTask()
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
