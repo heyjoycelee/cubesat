@@ -1,16 +1,22 @@
 /**
   ******************************************************************************
-  * @file    stm32f4xx_hal_msp_template.c
+  * @file    Templates/Src/stm32f4xx_hal_msp.c
   * @author  MCD Application Team
-  * @version V1.5.0
-  * @date    06-May-2016
-  * @brief   This file contains the HAL System and Peripheral (PPP) MSP initialization
-  *          and de-initialization functions.
-  *          It should be copied to the application folder and renamed into 'stm32f4xx_hal_msp.c'.           
+  * @brief   HAL MSP module.
+  *         
+  @verbatim
+ ===============================================================================
+                     ##### How to use this driver #####
+ ===============================================================================
+    [..]
+    This file is generated automatically by STM32CubeMX and eventually modified 
+    by the user
+
+  @endverbatim
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -40,17 +46,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 
-// [ILG]
-#if defined ( __GNUC__ )
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-prototypes"
-#endif
-
 /** @addtogroup STM32F4xx_HAL_Driver
   * @{
   */
 
-/** @defgroup HAL_MSP HAL MSP
+/** @defgroup HAL_MSP
   * @brief HAL MSP module.
   * @{
   */
@@ -62,14 +62,13 @@
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
-/** @defgroup HAL_MSP_Private_Functions HAL MSP Private Functions
+/** @defgroup HAL_MSP_Private_Functions
   * @{
   */
 
 /**
   * @brief  Initializes the Global MSP.
-  * @note   This function is called from HAL_Init() function to perform system
-  *         level initialization (GPIOs, clock, DMA, interrupt).
+  * @param  None
   * @retval None
   */
 void HAL_MspInit(void)
@@ -79,8 +78,7 @@ void HAL_MspInit(void)
 
 /**
   * @brief  DeInitializes the Global MSP.
-  * @note   This functiona is called from HAL_DeInit() function to perform system
-  *         level de-initialization (GPIOs, clock, DMA, interrupt).
+  * @param  None  
   * @retval None
   */
 void HAL_MspDeInit(void)
@@ -89,28 +87,6 @@ void HAL_MspDeInit(void)
 }
 
 /**
-  * @brief  Initializes the PPP MSP.
-  * @note   This functiona is called from HAL_PPP_Init() function to perform 
-  *         peripheral(PPP) system level initialization (GPIOs, clock, DMA, interrupt)
-  * @retval None
-  */
-void HAL_PPP_MspInit(void)
-{
-
-}
-
-/**
-  * @brief  DeInitializes the PPP MSP.
-  * @note   This functiona is called from HAL_PPP_DeInit() function to perform 
-  *         peripheral(PPP) system level de-initialization (GPIOs, clock, DMA, interrupt)
-  * @retval None
-  */
-void HAL_PPP_MspDeInit(void)
-{
-
-}
-
-/**
   * @}
   */
 
@@ -121,10 +97,5 @@ void HAL_PPP_MspDeInit(void)
 /**
   * @}
   */
-
-// [ILG]
-#if defined ( __GNUC__ )
-#pragma GCC diagnostic pop
-#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
