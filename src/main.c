@@ -62,9 +62,6 @@
 
 // ----- Private variables ----------------------------------------------------
 UART_HandleTypeDef huart5;
-uint32_t timeout = 100;
-uint8_t buffer[8] = "testtest";
-uint16_t size = 8;
 
 /* Private function prototypes -----------------------------------------------*/
 static void UART5_Init(void);
@@ -80,6 +77,7 @@ static void GPIO_Init(void);
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
 int main(int argc, char* argv[])
+
 {
   // Initialize all of the peripherals
   UART5_Init();
@@ -88,14 +86,24 @@ int main(int argc, char* argv[])
   timer_start();
 
   blink_led_init();
-  
-  uint32_t seconds = 0;
+  uint8_t receive_buffer[100]; // you have to hard code/ know the expected size of the incoming message
 
   // Infinite loop
-  while (1)
+  uint8_t flag = 1;
+  while (flag)
     {
-      HAL_UART_Transmit(&huart5, buffer, size, timeout);
+//	  HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart5, receive_buffer, sizeof(receive_buffer));
+	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart5, receive_buffer, sizeof(receive_buffer), HAL_MAX_DELAY);
+//	  if(status == 00000000) {
+//		 flag = 0;
+//	  }
+//	  trace_printf("receive %#08x\n", status);
+      trace_printf("%s \n", receive_buffer);
+      HAL_Delay(100);
     }
+  trace_printf("this worked");
+
+
   // Infinite loop, never return.
 }
 
@@ -124,6 +132,11 @@ GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 }
 
+//void CAN_Init(void)
+//{
+//	 __HAL_RCC_CAN1_CLK_ENABLE();
+//	 __GPIOx_CLK_ENABLE();
+//}
 
 #pragma GCC diagnostic pop
 
