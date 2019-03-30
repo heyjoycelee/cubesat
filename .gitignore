@@ -1,6 +1,4 @@
 
 /Debug/**
-/.cproject
-/.project
-/.settings/**
 /Debug/
+.vscode/**

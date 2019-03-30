@@ -5,6 +5,6 @@
 
 #include "stm32f4xx_hal.h"
 
-static void GPIO_Init(void);
+void GPIO_Init(void);
 
 #endif /* __GPIO_H */

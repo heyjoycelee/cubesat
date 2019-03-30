@@ -48,6 +48,9 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+uint32_t tout = 100;
+uint8_t buf[8] = "testtest";
+uint16_t sz = 8;
 /* Private function prototypes -----------------------------------------------*/
 static void SystemClock_Config(void);
 static void Error_Handler(void);
@@ -83,6 +86,7 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
+          UART5_Transmit(buf, sz, tout);
   }
 }
 

@@ -22,3 +22,9 @@ UART5_Init(void)
             trace_printf("UART 5 Error");
     }
 }
+
+HAL_StatusTypeDef
+UART5_Transmit(uint8_t *buffer, uint16_t size, uint32_t timeout)
+{
+    return HAL_UART_Transmit(&huart5, buffer, size, timeout);
+}
