@@ -150,6 +150,8 @@
                                     <listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;../system/include/stm32f4-hal&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="../include/hal-init"/>
                                     								
                                 </option>
                                 								
@@ -609,7 +611,7 @@
                         					
                     </fileInfo>
                     					
-                    <fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.935351799.src/stm32f4xx_hal_msp.c" name="stm32f4xx_hal_msp.c" rcbsApplicability="disable" resourcePath="src/stm32f4xx_hal_msp.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.452266159.364875438">
+                    <fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.935351799.src/stm32f4xx_hal_msp.c" name="stm32f4xx_hal_msp.c" rcbsApplicability="disable" resourcePath="src/hal-init/stm32f4xx_hal_msp.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.452266159.364875438">
                         						
                         <tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.452266159.364875438" name="GNU ARM Cross C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.452266159">
                             							
@@ -1021,7 +1023,7 @@
                         					
                     </fileInfo>
                     					
-                    <fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1519871141.src/stm32f4xx_hal_msp.c" name="stm32f4xx_hal_msp.c" rcbsApplicability="disable" resourcePath="src/stm32f4xx_hal_msp.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.785240944.1315999141">
+                    <fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1519871141.src/stm32f4xx_hal_msp.c" name="stm32f4xx_hal_msp.c" rcbsApplicability="disable" resourcePath="src/hal-init/stm32f4xx_hal_msp.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.785240944.1315999141">
                         						
                         <tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.785240944.1315999141" name="GNU ARM Cross C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.785240944">
                             							

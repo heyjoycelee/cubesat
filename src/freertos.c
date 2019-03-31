@@ -23,8 +23,6 @@
 #include "freeRTOS/task.h"
 #include "main.h"
 #include "freeRTOS/CMSIS_RTOS_ST_V1/cmsis_os.h"
-#include "diag/Trace.h"
-#include "uart5.h"
 
 /* Private includes ----------------------------------------------------------*/
 
@@ -39,60 +37,18 @@ uint32_t timeout = 100;
 uint8_t buffer[8] = "testtest";
 uint16_t size = 8;
 
-osThreadId defaultTaskHandle;
-
 /* Private function prototypes -----------------------------------------------*/
 
-void StartDefaultTask(void const * argument);
+void InitTask(void const * argument);
 void CommandTask(void const * argument);
 
-void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+void freeRTOS_Init(void);
 
 /**
   * @brief  FreeRTOS initialization
   * @param  None
   * @retval None
   */
-void MX_FREERTOS_Init(void) {
-  /* Init */
-
-  /* add mutexes, ... */
-
-  /* add semaphores, ... */
-
-
-  /* start timers, add new ones, ... */
-
-  /* add queues, ... */
-
-
-  /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-
-  /* add threads, ... */
+void freeRTOS_Init(void) {
 
 }
-
-void
-StartDefaultTask(void const *argument)
-{
-  for(;;)
-  {
-    trace_printf("Default task running\n");
-    osDelay(1000);
-  }
-}
-
-void
-CommandTask(void const *argument)
-{
-    for(;;)
-    {
-      trace_printf("Command task running\n");
-      UART5_Transmit(buffer, size, timeout);
-      osDelay(100);
-    }
-}
-

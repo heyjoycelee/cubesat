@@ -31,8 +31,10 @@ extern "C" {
 #include "stm32f4xx_hal.h"
 #include "freeRTOS/CMSIS_RTOS_ST_V1/cmsis_os.h"
 #include "diag/Trace.h"
-#include "gpio.h"
-#include "uart5.h"
+#include "hal-init/gpio.h"
+#include "hal-init/uart5.h"
+#include "hal-init/sysclock.h"
+#include "hal-init/led.h"
 
 /* Exported types ------------------------------------------------------------*/
 
@@ -41,8 +43,6 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/
-void Error_Handler(void);
-
 
 /* Private defines -----------------------------------------------------------*/
 
