@@ -35,11 +35,8 @@ int main(void)
   CAN1_Init();
   CAN2_Init();
   /* Call init function for freertos objects (in freertos.c) */
-  freeRTOS_Init();
-
   trace_printf("freeRTOS Scheduler Starting...\n");
-  /* Start scheduler */
-  for(;;) {
-  }
+  freeRTOS_Init();
   /* We should never get here as control is now taken by the scheduler */
+  trace_printf("Reached end of main...\n");
 }

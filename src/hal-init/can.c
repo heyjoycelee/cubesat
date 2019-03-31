@@ -19,8 +19,8 @@ CAN1_Init(void) {
     hcan1.Init.AutoRetransmission = DISABLE;
     hcan1.Init.ReceiveFifoLocked = DISABLE;
     hcan1.Init.TransmitFifoPriority = DISABLE;
-    if(HAL_CAN_Init(&hcan1 != HAL_OK)) {
-            trace_printf("CAN1 Init not successful");
+    if(HAL_CAN_Init(&hcan1) != HAL_OK) {
+            trace_printf("CAN1 init not successful");
     }
 }
 
@@ -38,7 +38,7 @@ CAN2_Init(void) {
     hcan2.Init.AutoRetransmission = DISABLE;
     hcan2.Init.ReceiveFifoLocked = DISABLE;
     hcan2.Init.TransmitFifoPriority = DISABLE;
-    if(HAL_CAN_Init(&hcan2 != HAL_OK)) {
-            trace_printf("CAN2 Init not successful");
+    if(HAL_CAN_Init(&hcan2) != HAL_OK) {
+            trace_printf("CAN2 init not successful");
     }
 }

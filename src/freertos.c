@@ -40,8 +40,8 @@ uint16_t size = 8;
 /* Private function prototypes -----------------------------------------------*/
 
 static void vInitTask(void const * pvParameters);
-static void vCANRxTask(void const * pvParameters);
-static void vCANTxTask(void const * pvParameters);
+static void vCAN1RxTask(void const * pvParameters);
+static void vCAN1TxTask(void const * pvParameters);
 
 void freeRTOS_Init(void);
 
@@ -51,21 +51,42 @@ void freeRTOS_Init(void);
   * @retval None
   */
 void freeRTOS_Init(void) {
-//
-//    xTaskCreate(vInitTask, "initial task",configMINIMAL_STACK_SIZE, NULL, osPriorityNormal, NULL)
-//    vTaskStartScheduler();
-//    trace_printf("Not enough space to create the idle task");
+    xTaskCreate(vInitTask, "initial task",configMINIMAL_STACK_SIZE, NULL, 0, NULL);
+    vTaskStartScheduler();
+    trace_printf("Not enough space to create the idle task");
 }
 
-static void vInitTask(void const * pvParameters) {
-
+static void
+vInitTask(void const * pvParameters) {
+    for(;;) {
+            BaseType_t xCAN1RX_returned;
+            BaseType_t xCAN1TX_returned;
+            TaskHandle_t xHandleRx = NULL;
+            TaskHandle_t xHandleTx = NULL;
+            xCAN1TX_returned = xTaskCreate(vCAN1TxTask, "CAN1 transmit task",configMINIMAL_STACK_SIZE, NULL, 0, &xHandleTx);
+            taskYIELD();
+            if( xCAN1TX_returned == pdPASS )
+            {
+                    vTaskDelete( xHandleTx );
+            }
+            xCAN1RX_returned = xTaskCreate(vCAN1RxTask, "CAN1 receive task",configMINIMAL_STACK_SIZE, NULL, 0, &xHandleRx);
+            taskYIELD();
+            if( xCAN1RX_returned == pdPASS )
+            {
+                    vTaskDelete( xHandleRx );
+            }
+    }
 }
 
-static void vCANRxTask(void const * pvParameters) {
-
+static void
+vCAN1RxTask(void const * pvParameters) {
+    trace_printf("CAN Received\n");
+    taskYIELD();
 }
 
-static void vCANTxTask(void const * pvParameters) {
-
+static void
+vCAN1TxTask(void const * pvParameters) {
+    trace_printf("CAN Transmitted\n");
+    taskYIELD();
 }
 
