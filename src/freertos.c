@@ -39,8 +39,9 @@ uint16_t size = 8;
 
 /* Private function prototypes -----------------------------------------------*/
 
-void InitTask(void const * argument);
-void CommandTask(void const * argument);
+static void vInitTask(void const * pvParameters);
+static void vCANRxTask(void const * pvParameters);
+static void vCANTxTask(void const * pvParameters);
 
 void freeRTOS_Init(void);
 
@@ -50,5 +51,21 @@ void freeRTOS_Init(void);
   * @retval None
   */
 void freeRTOS_Init(void) {
+//
+//    xTaskCreate(vInitTask, "initial task",configMINIMAL_STACK_SIZE, NULL, osPriorityNormal, NULL)
+//    vTaskStartScheduler();
+//    trace_printf("Not enough space to create the idle task");
+}
+
+static void vInitTask(void const * pvParameters) {
 
 }
+
+static void vCANRxTask(void const * pvParameters) {
+
+}
+
+static void vCANTxTask(void const * pvParameters) {
+
+}
+

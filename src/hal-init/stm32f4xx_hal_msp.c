@@ -37,7 +37,8 @@
 /**
   * Initializes the Global MSP.
   */
-void HAL_MspInit(void)
+void
+HAL_MspInit(void)
 {
   __HAL_RCC_SYSCFG_CLK_ENABLE();
   __HAL_RCC_PWR_CLK_ENABLE();
@@ -47,7 +48,8 @@ void HAL_MspInit(void)
   HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);
 }
 
-void HAL_UART_MspInit(UART_HandleTypeDef* huart)
+void
+HAL_UART_MspInit(UART_HandleTypeDef* huart)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(huart->Instance==UART5)
@@ -57,8 +59,8 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     __HAL_RCC_GPIOD_CLK_ENABLE();
 
     /**UART5 GPIO Configuration
-    PC12     ------> UART5_TX
-    PD2     ------> UART5_RX
+        PC12     ------> UART5_TX (GPIO C
+        PD2     ------> UART5_RX
     */
 
     GPIO_InitStruct.Pin = GPIO_PIN_12;
@@ -77,27 +79,92 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
   }
 }
 
-void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
+void
+HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
 {
   if(huart->Instance==UART5)
   {
-  /* USER CODE BEGIN UART5_MspDeInit 0 */
-
-  /* USER CODE END UART5_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_UART5_CLK_DISABLE();
 
     /**UART5 GPIO Configuration
-    PC12     ------> UART5_TX
-    PD2     ------> UART5_RX
+        PC12     ------> UART5_TX
+        PD2     ------> UART5_RX
     */
     HAL_GPIO_DeInit(GPIOC, GPIO_PIN_12);
 
     HAL_GPIO_DeInit(GPIOD, GPIO_PIN_2);
-
-  /* USER CODE BEGIN UART5_MspDeInit 1 */
-
-  /* USER CODE END UART5_MspDeInit 1 */
   }
 }
+
+void
+HAL_CAN_MspInit(CAN_HandleTypeDef* hcan) {
+    GPIO_InitTypeDef GPIO_InitStructTX = {0};
+    GPIO_InitTypeDef GPIO_InitStructRX = {0};
+
+    if(hcan->Instance==CAN1)
+    {
+        // CAN1 CLK
+        __HAL_RCC_CAN1_CLK_ENABLE();
+        // CAN1 GPIO
+        __HAL_RCC_GPIOA_CLK_ENABLE();
+
+        /**CAN1 GPIO Configuration
+            PA11     ------> CAN1_RX
+            PA12     ------> CAN1_TX
+        */
+
+        // CAN1 TX GPIO Pin Configuration
+        GPIO_InitStructTX.Pin = GPIO_PIN_11|GPIO_PIN_12;
+        GPIO_InitStructTX.Mode = GPIO_MODE_AF_PP;
+        GPIO_InitStructTX.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStructTX.Pull = GPIO_PULLUP;
+        GPIO_InitStructTX.Alternate = GPIO_AF9_CAN1;
+
+        HAL_GPIO_Init(GPIOA, &GPIO_InitStructTX);
+    }
+    if(hcan->Instance==CAN2)
+    {
+        // CAN2 CLK + GPIO
+        __HAL_RCC_CAN2_CLK_ENABLE();
+        __HAL_RCC_GPIOB_CLK_ENABLE();
+
+        /**CAN2 GPIO Configuration
+            PB12     ------> CAN2_RX
+            PB13     ------> CAN2_TX
+        */
+
+        //CAN2 RX GPIO Pin Configuration
+        GPIO_InitStructRX.Pin = GPIO_PIN_12|GPIO_PIN_13;
+        GPIO_InitStructRX.Mode = GPIO_MODE_AF_PP;
+        GPIO_InitStructRX.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStructRX.Pull = GPIO_PULLUP;
+        GPIO_InitStructRX.Alternate = GPIO_AF9_CAN2;
+
+        HAL_GPIO_Init(GPIOB, &GPIO_InitStructRX);
+    }
+
+
+}
+
+void
+HAL_CAL_MspDeInit(CAN_HandleTypeDef* hcan) {
+    if(hcan->Instance==CAN1)
+    {
+            __HAL_RCC_CAN1_CLK_DISABLE();
+
+            __HAL_RCC_CAN1_FORCE_RESET();
+            __HAL_RCC_CAN1_RELEASE_RESET();
+            HAL_GPIO_DeInit(GPIOA, GPIO_PIN_11|GPIO_PIN_12);
+    }
+    if(hcan->Instance==CAN2)
+    {
+            __HAL_RCC_CAN2_CLK_DISABLE();
+
+            __HAL_RCC_CAN2_FORCE_RESET();
+            __HAL_RCC_CAN2_RELEASE_RESET();
+            HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12|GPIO_PIN_13);
+    }
+}
+
 

@@ -34,7 +34,7 @@ extern "C" {
 #include "hal-init/gpio.h"
 #include "hal-init/uart5.h"
 #include "hal-init/sysclock.h"
-#include "hal-init/led.h"
+#include "hal-init/can.h"
 
 /* Exported types ------------------------------------------------------------*/
 

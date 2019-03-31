@@ -32,12 +32,14 @@ int main(void)
   /* Peripheral initialization*/
   GPIO_Init();
   UART5_Init();
-  blink_led_init();
+  CAN1_Init();
+  CAN2_Init();
   /* Call init function for freertos objects (in freertos.c) */
   freeRTOS_Init();
 
   trace_printf("freeRTOS Scheduler Starting...\n");
   /* Start scheduler */
-  for(;;);
+  for(;;) {
+  }
   /* We should never get here as control is now taken by the scheduler */
 }
