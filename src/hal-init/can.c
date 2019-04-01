@@ -1,12 +1,23 @@
 
 #include "can.h"
 
-CAN_HandleTypeDef hcan1;
-CAN_HandleTypeDef hcan2;
-
 void
 CAN1_Init(void) {
     // CAN1 Master
+
+    //set filter / mask to accept every identifier
+    CAN_FilterTypeDef filter = {0};
+    filter.FilterIdHigh = 0;
+    filter.FilterIdLow = 0;
+    filter.FilterMaskIdHigh = 0x0000;
+    filter.FilterMaskIdLow =  0x0000;
+    filter.FilterFIFOAssignment = CAN_RX_FIFO0;
+    filter.FilterBank = 0;
+    filter.FilterMode = CAN_FILTERMODE_IDMASK;
+    filter.FilterScale = CAN_FILTERSCALE_16BIT;
+    filter.FilterActivation = ENABLE;
+    filter.SlaveStartFilterBank = 0;
+
     hcan1.Instance = CAN1;
     hcan1.Init.Prescaler = 16;
     hcan1.Init.Mode = CAN_MODE_LOOPBACK;
@@ -22,10 +33,27 @@ CAN1_Init(void) {
     if(HAL_CAN_Init(&hcan1) != HAL_OK) {
             trace_printf("CAN1 init not successful");
     }
+    if (HAL_CAN_ConfigFilter(&hcan1, &filter) != HAL_OK) {
+            trace_printf("Can1 filter config not successful");
+    }
 }
 
 void
 CAN2_Init(void) {
+
+    //set filter / mask to accept every identifier
+    CAN_FilterTypeDef filter = {0};
+    filter.FilterIdHigh = 0;
+    filter.FilterIdLow = 0;
+    filter.FilterMaskIdHigh = 0x0000;
+    filter.FilterMaskIdLow =  0x0000;
+    filter.FilterFIFOAssignment = CAN_RX_FIFO0;
+    filter.FilterBank = 0;
+    filter.FilterMode = CAN_FILTERMODE_IDMASK;
+    filter.FilterScale = CAN_FILTERSCALE_16BIT;
+    filter.FilterActivation = ENABLE;
+    filter.SlaveStartFilterBank = 0;
+
     hcan2.Instance = CAN2;
     hcan2.Init.Prescaler = 16;
     hcan2.Init.Mode = CAN_MODE_LOOPBACK;
@@ -40,5 +68,8 @@ CAN2_Init(void) {
     hcan2.Init.TransmitFifoPriority = DISABLE;
     if(HAL_CAN_Init(&hcan2) != HAL_OK) {
             trace_printf("CAN2 init not successful");
+    }
+    if (HAL_CAN_ConfigFilter(&hcan1, &filter) != HAL_OK) {
+            trace_printf("Can2 filter config not successful");
     }
 }
