@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "diag/Trace.h"
+#include <string.h>
 
 #include "Timer.h"
 #include "BlinkLed.h"
@@ -88,48 +89,100 @@ int main(int argc, char* argv[])
   blink_led_init();
   uint8_t receive_buffer[100]; // you have to hard code/ know the expected size of the incoming message
   uint8_t message[100][100];
+  uint8_t Message[100][100] = {"MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNmdhhyyyyyyyyyyhdmNNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNdhyo/:://++oooo+:/+//::/:+hydmNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNmds/:::::-::://+ss+++++/+oooso+o//::oydNNMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMNNdyo/--..-::+yyyyoosy++/::----::sss///o+syyhhmNMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMNmddh+o::+/-/+/:-+hddhy+::::-:..yyhyyhho+ys/--+syyhmNNMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMNhoshhooo/+oo++ossshhds::-/ssyyy/:smho++/+/o+:-/++ohdhyymNMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMNhssddhsoososoo+:/yyhyyyo+/+oyydmyshhmmyo++sso:.-:ohyhmdhhhmmNMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMNh/+hddhoosssys++++oyyhyyys++ossssoydmdmmmddddddho/:oyhmmmdmmdhdNNMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMms+ohhhys/os+oo+///+oyyyyyysooshssshmmmmmmmmmmmmmmmddddydmmmmNmhhdmNMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMNdysssoo:+o/os+++//++oyyyyhhyyshdhhddmmmmmddmmmmmmmmmmmmmdymmmmmNmmmNmmNMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMNhhhs/oo+shssyy++o+/oydddddhhhhos+odmdmddmmmdmmmmmmmmmmmmmmmNNNmmNNNNNNdmNMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMNhhhdh+++sdhodyys+osoymdddhysoydyssshdmdhhdmmmmmmmmmmmmmmmmmmmmNmmmmmdmNddmNMMMMMMMMMM",
+		  "MMMMMMMMMMMMMNhhyhhyosyho/:/+yyosyyddddhyyyhdhhhyyhddddmmmdmmmmmmmmmmmmmmmmmmmNmdmmyhhsyhmNMMMMMMMMM",
+		  "MMMMMMMMMMMMNdhss+/:/y/::--:+/ssyyshdddhyohyyddmddhhddhddmddmmdmmdmdmmmmmmmmNNmNdNmdmh/oydmNMMMMMMMM",
+		  "MMMMMMMMMMMNdhyshhhhddo--../y+++yysosyys/yd+oddmmddddddddmhhdddmmddmmmmmmmmmmmNNmmmNNNyyshdmNMMMMMMM",
+		  "MMMMMMMMMMMmhdoyyyhddhh/-:+o/ossyyhddhssssoo:sdmmmmmmmmddddhsmmmmydmmmmmmmmmmNNNmmNNNmddhhmmNMMMMMMM",
+		  "MMMMMMMMMMNmhh/hmmdssyyysyho/dhsdddddyyyyyso/sdmddmdddhddmddhdmmmmmmmddmmmmmmNNNNNNNNmdNNmmNNNMMMMMM",
+		  "MMMMMMMMMMmmmdddmdh+--ohhooosho:hdddyyh++oso/+oshhhyyyysyyhdhhhhmmmddmmmmmmmmmmNNNNmmNmNNmdmNNMMMMMM",
+		  "MMMMMMMMMMdmmmdhddds/./yhyhs++:-yyhyyssddysysyoyoosyyyossoosyshhhdmmmmmmmmmmmmNmmdmNNNNmyhhymNMMMMMM",
+		  "MMMMMMMMMNdmhodhdhhhyoohdhydy:-:/-+osdsohhyy+.::../ysoo+oooyhhdddhhhhhdmmmmmmNNNNNNmNNmdhsdhmNNMMMMM",
+		  "MMMMMMMMMNyoooddmdmmmmdddsydys/--:/+sso+soy/+:/:.-/+/oooosyyhddyyhhddddhdmmmmmNNNNNNNNNmNNNmNNNMMMMM",
+		  "MMMMMMMMMNyshmdddmmdmmmhddmmdhyyyyhmdyhddds:oo+///os+oo+ossyyyyyhhhhddhy+ydmmmNNNNNNNNNNNNmmNNNMMMMM",
+		  "MMMMMMMMMNhhdhdhhdmmmmmmhhdmdhdmdddmmmhdddddmdy//:/:://:ossssyyyhhhhhhhhyyyhhdmmmNNNNNNNNNhdNNNMMMMM",
+		  "MMMMMMMMMNymmmmmmmmddddmdddhdhhhdddydhyhddmmddh+..--.//ossssssysyyyhhhhyyyhyhhyhmmNNNNNNNNNNNNNMMMMM",
+		  "MMMMMMMMMNyhmmmmmmddmmdddmmmdhdhddddyso/ssyyhhs+:-/+/+/oossyyyyyyyyhhhyyossyhyyhyhmNNmNNNNNNNNNMMMMM",
+		  "MMMMMMMMMMdddddddmdmdhddmdmmmdddddyyhy++y+::-:ydo++so+ssyyyysssyyyyyyhysoo+yysyyydmmmmmmmmNNNNMMMMMM",
+		  "MMMMMMMMMMNhdhhdhhhdhdddddddddhhhhddhhhhhhhhy/+yyo/oosysssssssooyyysyysosoossyhdmmmdmmNNmhmNNNMMMMMM",
+		  "MMMMMMMMMMNdmdhdhhhydddmdddddddddhhdddddhhhhhyso//+++++ooso+osooosyoysso+sssooomNNNNNNNNmmNNNMMMMMMM",
+		  "MMMMMMMMMMMNdmmmmdmdddmddddddddddmmddddmmddhhys+::/+++o+oyhysssosssosssssyyys-.+hhmNNNNNNNNNNMMMMMMM",
+		  "MMMMMMMMMMMMdsmmmmmdmmddddhhhddmmddddddhddddhddhy+::/+++o+syhsossssoossssyy+-.//:++odmNNNNNNMMMMMMMM",
+		  "MMMMMMMMMMMMNhosyddmddddddddhdddmmdmdhs+hmmdddhyyso+/:/:o/oshysssssssssosys-/ohdddyoyhmNNNNNMMMMMMMM",
+		  "MMMMMMMMMMMMMNho:-/oshhddddddddmmddddddhsyhmddyo+osso+/:+oshysyyyyhysyssyyhhmNNNNNmhdmmNNNNMMMMMMMMM",
+		  "MMMMMMMMMMMMMMNdho/.--+yhmddddmddmmmmmdho+hmmmmdddddhhh/:oyhyyyyyhhhhhhdmNNNNNNNNNNNNNNNNNMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMNmddy:..-:ydmmdmmdddmdmmdddmmmmmmdddmmms+oyyysyys:-::/sdmNNNNNNNNNNNNNNNNNMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMmhhdy/-../hmmmmmmddddhdddddmmddmmmmmms/yyyyyyyys/-.-+odmmmmmNNNNNNNNNNMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMNdyhdy/-.-+dmmmdddyyhddhhhdddddddmmdo/ysyhhhhdmmy+-:sshyhmmNNNNNNNNNMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMmysyddy+-:/yhmdd-yyssoyhhhdddddmd+:sysyyhyhhsyhh/+++hddddmNNNNNNMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMNmhyhdmyo/-:ssooy/++/+++ossyhhhy/o++sdddyoo--:o+o/shhhydNNNNNNMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMNmhsyhdys..+s//:.-./+//:/++/+//ssydNmhhhsosoyyyyyhhhmNNNNNMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMNdyyss/--:+++o+-+:`-:++/-.-+:+hdhhyyyyyhhhdyyhmmNNNNMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMNdyo++/---.-:-::+so/+os+//+//+++osssssyyhhdmNNMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNmhy+/::::/syso//+++//--:--:::::/sydmmNNMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNmhyo++o//::-..---::://oshdmNNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNmmdddddddmmNNNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+		  "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"};
 
   // Infinite loop
   uint8_t flag = 1;
   int incomingPacketCounter = 0;
   while (flag)
-    {
-//	  HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart5, receive_buffer, sizeof(receive_buffer));
-	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart5,receive_buffer, sizeof(receive_buffer), HAL_MAX_DELAY);
-//	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart5, message[incomingPacketCounter], sizeof(message[incomingPacketCounter]), HAL_MAX_DELAY);
-//	  trace_printf("receive %#08x\n", status);
-	  trace_printf("%s\n",receive_buffer);
-	  if(status == 0)
-	  {
-		  memcpy(message[incomingPacketCounter],receive_buffer, sizeof(receive_buffer));
-	  }
-//	  for(int i=0; i<100; i++)
-//	  {
-//		  message[incomingPacketCounter][i] = receive_buffer[i];
-//	  }
-//	  for(uint8_t i=0; i<sizeof(receive_buffer); i++)
-//	  {
-//		  trace_printf("%s",receive_buffer[i]);
-//	  }
-//	  trace_printf("\n");
-//	  trace_printf("%s \n", receive_buffer);
-//      trace_printf("%s \n", message[incomingPacketCounter]);
-      incomingPacketCounter++;
-//
-	  if(incomingPacketCounter == 10)
-	  {
-		 flag = 0;
-	  }
-      HAL_Delay(100);
-    }
-  trace_printf("this worked");
-
-  for(int i=0; i<10; i++)
   {
-	  trace_printf("%s\n",message[i]);
+	//	  HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart5, receive_buffer, sizeof(receive_buffer));
+	HAL_StatusTypeDef status = HAL_UART_Receive(&huart5,receive_buffer, sizeof(receive_buffer), HAL_MAX_DELAY);
+	//	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart5, message[incomingPacketCounter], sizeof(message[incomingPacketCounter]), HAL_MAX_DELAY);
+	//	  trace_printf("receive %#08x\n", status);
+	trace_printf("%s\n",receive_buffer);
+	if(status == 0)
+	{
+	  strcpy(message[incomingPacketCounter],(const uint8_t*)receive_buffer);
+	}
+	//	  trace_printf("moop: %s\n",message[incomingPacketCounter]);
+	incomingPacketCounter++;
+
+	if(incomingPacketCounter == 52)
+	{
+	//		  trace_printf("PRINTING THE MEMORY \n");
+	//		  trace_printf("%s/n", message[3]);
+	//		  for(int i=0; i<10; i++)
+	//		  {
+	//			  trace_printf("%s",message[i]);
+	//			  trace_printf("\n");
+	//		  }
+		flag = 0;
+	}
+	  HAL_Delay(100);
   }
 
+  trace_printf("Download from camera complete \n");
+  for(int i=0; i<52; i++)
+  {
 
+	  HAL_StatusTypeDef status = HAL_UART_Transmit(&huart5, Message[i],sizeof(Message[i]),HAL_MAX_DELAY);
+	  trace_printf("Transmitting status %#08x\n", status);
+	  HAL_Delay(1000);
+  }
+
+  trace_printf("Completed transmission to transceiver \n");
   // Infinite loop, never return.
 }
 
