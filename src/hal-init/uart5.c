@@ -1,8 +1,6 @@
 
 #include "uart5.h"
 
-UART_HandleTypeDef huart5;
-
 void
 UART5_Init(void)
 {

@@ -33,9 +33,11 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-uint32_t timeout = 100;
-uint8_t buffer[8] = "testtest";
-uint16_t size = 8;
+uint32_t timeout = HAL_MAX_DELAY;
+uint8_t receive_buffer[100]; // you have to hard code/ know the expected size of the incoming message
+uint8_t message[100][100];
+uint8_t flag = 1;
+int incomingPacketCounter = 0;
 
 CAN_TxHeaderTypeDef TxHeader;
 CAN_RxHeaderTypeDef RxHeader;
@@ -74,8 +76,10 @@ vInitTask(void const * pvParameters) {
     for(;;) {
 //            BaseType_t xCAN1RX_returned;
 //            BaseType_t xCAN1TX_returned;
+              BaseType_t UART5RX_returned;
 //            TaskHandle_t xHandleRx = NULL;
 //            TaskHandle_t xHandleTx = NULL;
+              TaskHandle_t xHandleUARTRx = NULL;
 
 //            xCAN1TX_returned = xTaskCreate(vCAN1TxTask, "CAN1 transmit task",configMINIMAL_STACK_SIZE, NULL, 0, &xHandleTx);
 //            taskYIELD();
@@ -90,9 +94,34 @@ vInitTask(void const * pvParameters) {
 //            {
 //                    vTaskDelete( xHandleRx );
 //            }
+            UART5RX_returned = xTaskCreate(vUART5RxTask, "UART5 receive task",configMINIMAL_STACK_SIZE, NULL, 0, &xHandleUARTRx);
+            taskYIELD();
+            if( UART5RX_returned == pdPASS )
+            {
+                    vTaskDelete( xHandleUARTRx );
+            }
+
     }
 }
 
+static TaskFunction_t
+vUART5RxTask(void const * pvParameters) {
+    if(flag) {
+            trace_printf("Waiting for transmission...\n");
+    }
+    while (flag)
+    {
+        HAL_StatusTypeDef status = HAL_UART_Receive(&huart5,receive_buffer, sizeof(receive_buffer), timeout);
+        trace_printf("%s\n",receive_buffer);
+             incomingPacketCounter++;
+             if(incomingPacketCounter == 52)
+             {
+                flag = 0;
+                trace_printf("Exiting...");
+             }
+    }
+    taskYIELD();
+}
 
 
 //static TaskFunction_t

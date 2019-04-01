@@ -6,6 +6,7 @@
 #include "stm32f4xx_hal.h"
 #include "diag/Trace.h"
 
+UART_HandleTypeDef huart5;
 void UART5_Init(void);
 HAL_StatusTypeDef UART5_Transmit(uint8_t *buffer, uint16_t size, uint32_t timeout);
 

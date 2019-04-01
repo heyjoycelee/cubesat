@@ -24,7 +24,8 @@ void freeRTOS_Init(void);
 int main(void)
 {
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                  HAL_Init();
+
+    HAL_Init();
   /* Configure the system clock */
   SystemClock_Init();
   /* SysInit */
@@ -36,7 +37,6 @@ int main(void)
   CAN2_Init();
   HAL_CAN_Start(&hcan2);
   /* Call init function for freertos objects (in freertos.c) */
-  trace_printf("freeRTOS Scheduler Starting...\n");
   freeRTOS_Init();
   /* We should never get here as control is now taken by the scheduler */
   trace_printf("Reached end of main...\n");
