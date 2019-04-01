@@ -87,21 +87,47 @@ int main(int argc, char* argv[])
 
   blink_led_init();
   uint8_t receive_buffer[100]; // you have to hard code/ know the expected size of the incoming message
+  uint8_t message[100][100];
 
   // Infinite loop
   uint8_t flag = 1;
+  int incomingPacketCounter = 0;
   while (flag)
     {
 //	  HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart5, receive_buffer, sizeof(receive_buffer));
-	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart5, receive_buffer, sizeof(receive_buffer), HAL_MAX_DELAY);
-//	  if(status == 00000000) {
-//		 flag = 0;
-//	  }
+	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart5,receive_buffer, sizeof(receive_buffer), HAL_MAX_DELAY);
+//	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart5, message[incomingPacketCounter], sizeof(message[incomingPacketCounter]), HAL_MAX_DELAY);
 //	  trace_printf("receive %#08x\n", status);
-      trace_printf("%s \n", receive_buffer);
+	  trace_printf("%s\n",receive_buffer);
+	  if(status == 0)
+	  {
+		  memcpy(message[incomingPacketCounter],receive_buffer, sizeof(receive_buffer));
+	  }
+//	  for(int i=0; i<100; i++)
+//	  {
+//		  message[incomingPacketCounter][i] = receive_buffer[i];
+//	  }
+//	  for(uint8_t i=0; i<sizeof(receive_buffer); i++)
+//	  {
+//		  trace_printf("%s",receive_buffer[i]);
+//	  }
+//	  trace_printf("\n");
+//	  trace_printf("%s \n", receive_buffer);
+//      trace_printf("%s \n", message[incomingPacketCounter]);
+      incomingPacketCounter++;
+//
+	  if(incomingPacketCounter == 10)
+	  {
+		 flag = 0;
+	  }
       HAL_Delay(100);
     }
   trace_printf("this worked");
+
+  for(int i=0; i<10; i++)
+  {
+	  trace_printf("%s\n",message[i]);
+  }
 
 
   // Infinite loop, never return.
